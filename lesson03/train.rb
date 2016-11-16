@@ -1,14 +1,16 @@
+load('./train_dispatcher.rb')
+
 class Train
 
   attr_accessor :speed
 
-  attr_reader :train_number, :train_passangers, :railway_carriage_count, :train_route, :current_station, :dispatcher
+  attr_reader :number, :type, :railway_carriage_count, :route, :dispatcher
 
-  def initialize(dispatcher: '', train_number: '0001', train_passangers: true, railway_carriage_count: 10)
+  def initialize(dispatcher: TrainDispatcher.new, number: '0001', type: 'passangers', railway_carriage_count: 10)
     @dispatcher = dispatcher
     @speed = 0
-    @train_number = train_number
-    @train_passangers = train_passangers
+    @number = number
+    @type = type
     @railway_carriage_count = railway_carriage_count
   end
 
@@ -43,20 +45,24 @@ class Train
 
   # Может принимать маршрут следования
   def set_train_route(train_route)
-    if train_route 
-      @train_route = train_route 
-      @current_station = train_route.first_station
+    if train_route
+      @route = train_route
+      drive_to(train_route.first_station)
     end
   end
 
   # Может перемещаться между станциями, указанными в маршруте.
   def drive_to(station)
-    @current_station = station
+    dispatcher.train_drive_to(station, self)
   end
 
   # Показывать предыдущую станцию, текущую, следующую, на основе маршрута
   def show_previous_station
-    puts "Previous station: #{train_route.get_previous_station(current_station)}"
+    puts "Previous station: #{route.get_previous_station(current_station)}"
+  end
+
+  def current_station
+    return dispatcher.get_train_current_station(self)
   end
 
   def show_current_station
@@ -64,12 +70,12 @@ class Train
   end
 
   def show_next_station
-    puts "Next station: #{train_route.get_next_station(current_station)}"
+    puts "Next station: #{route.get_next_station(current_station)}"
   end
 
   # для красоты вывода
   def to_s
-    puts "Train № #{train_number} with #{railway_carriage_count} #{train_passangers ? 'passenger' : 'cargo'} railway carriage"
+    "Train № #{number} with #{railway_carriage_count} type #{type} railway carriage"
   end
 
 end

@@ -15,11 +15,19 @@ class TrainRoute
 
   def get_previous_station(station)
     station_index = stations_list.find_index(station)
-    stations_list[station_index - 1] if station_index > 0 && station_index <= (stations_list.size - 1)
+    if station_index > 0
+      stations_list[station_index - 1]
+    else
+      first_station
+    end
   end
 
   def get_next_station(station)
-    stations_list[stations_list.find_index(station).next] if stations_list.include?(station) && station != last_station
+    if stations_list.include?(station) && station != last_station
+      stations_list[stations_list.find_index(station).next]
+    else
+      last_station
+    end
   end
 
   def show_station_list
@@ -37,7 +45,7 @@ class TrainRoute
   end
 
   def to_s
-    puts "Route from: '#{first_station}' to '#{last_station}'"
+    "Route from: '#{first_station}' to '#{last_station}'"
   end
 
 end
