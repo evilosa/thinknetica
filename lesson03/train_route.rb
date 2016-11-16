@@ -1,8 +1,8 @@
 class TrainRoute
   attr_reader :stations_list
 
-  def initialize(firstStation, lastStation)
-    @stations_list = [firstStation, lastStation]
+  def initialize(first_station, last_station)
+    @stations_list = [first_station, last_station]
   end
 
   def first_station

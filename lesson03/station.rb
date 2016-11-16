@@ -1,19 +1,22 @@
+load('./train_dispatcher.rb')
+
 class Station
 
   attr_reader :name
-  attr_reader :train_list
+  attr_reader :train_list, :dispatcher
 
-  def initialize(name)
+  def initialize(name: '', dispatcher: TrainDispatcher.new)
     @name = name
-    @train_list = []
+    @dispatcher = dispatcher
+    dispatcher.register_station(self)
   end
 
   def train_arrival(train)
-    @train_list.push(train)
+    dispatcher.train_arrival(self, train)
   end
 
   def train_departure(train)
-    @train_list.delete(train) if @train_list.include?(train)
+    dispatcher.train_departure(self, train)
   end
 
   def show_trains(show_by_types = false)

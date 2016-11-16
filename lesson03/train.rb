@@ -2,9 +2,10 @@ class Train
 
   attr_accessor :speed
 
-  attr_reader :train_number, :train_passangers, :railway_carriage_count, :train_route, :current_station
+  attr_reader :train_number, :train_passangers, :railway_carriage_count, :train_route, :current_station, :dispatcher
 
-  def initialize(train_number = '0001', train_passangers = true, railway_carriage_count = 10)
+  def initialize(dispatcher: '', train_number: '0001', train_passangers: true, railway_carriage_count: 10)
+    @dispatcher = dispatcher
     @speed = 0
     @train_number = train_number
     @train_passangers = train_passangers
@@ -42,8 +43,10 @@ class Train
 
   # Может принимать маршрут следования
   def set_train_route(train_route)
-    @train_route = train_route if train_route
-    @current_station = train_route.first_station
+    if train_route 
+      @train_route = train_route 
+      @current_station = train_route.first_station
+    end
   end
 
   # Может перемещаться между станциями, указанными в маршруте.
