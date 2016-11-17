@@ -14,8 +14,8 @@ class TrainRoute
   end
 
   def get_previous_station(station)
-    station_index = stations_list.find_index(station)
-    if station_index > 0
+    if stations_list.include?(station) && station != first_station
+      station_index = stations_list.find_index(station)
       stations_list[station_index - 1]
     else
       first_station
