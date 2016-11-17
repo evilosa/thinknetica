@@ -1,9 +1,14 @@
 puts "Lesson 03 - Train management"
 
-load('./train_dispatcher.rb')
-load('./station.rb')
-load('./train_route.rb')
-load('./train.rb')
+require_relative('train_dispatcher')
+require_relative('station')
+require_relative('train_route')
+require_relative('train')
+require_relative('passenger_train')
+require_relative('cargo_train')
+require_relative('railway_carriage')
+require_relative('passenger_railway_carriage')
+require_relative('cargo_railway_carriage')
 
 #create classes
 
@@ -24,13 +29,13 @@ train_route.insert_station(third_station)
 train_route.insert_station(fourth_station)
 
 # Train
-train = Train.new(dispatcher: dispatcher, number: '0002233', type: 'passengers', railway_carriage_count: 10)
+train = PassengerTrain.new(dispatcher: dispatcher, number: '0002233')
 train.set_train_route(train_route)
 
-train2 = Train.new(dispatcher: dispatcher, number: '0002100', type: 'cargo', railway_carriage_count: 24)
+train2 = CargoTrain.new(dispatcher: dispatcher, number: '0002100')
 train2.set_train_route(train_route)
 
-train3 = Train.new(dispatcher: dispatcher, number: '0002400', type: 'passengers', railway_carriage_count: 12)
+train3 = PassengerTrain.new(dispatcher: dispatcher, number: '0002400')
 train3.set_train_route(train_route)
 
 train.current_speed
@@ -39,9 +44,10 @@ train.current_speed
 train.stop
 train.current_speed
 
-train.current_station
+train.show_current_station
 train.drive_to(second_station)
 train.show_previous_station
+train.show_current_station
 train.show_next_station
 
 dispatcher.show_current_stations_load
@@ -56,6 +62,14 @@ train3.drive_to(last_station)
 
 dispatcher.show_current_stations_load
 train.show_next_station
+
+last_station.show_trains(show_by_types: true)
+
+wagon = CargoRailwayCarriage.new
+train2.add_railway_carriage(wagon)
+
+passenger_wagon = PassengerRailwayCarriage.new
+train.add_railway_carriage(passenger_wagon)
 
 last_station.show_trains(show_by_types: true)
 

@@ -3,7 +3,7 @@ class TrainDispatcher
     attr_reader :station_trains
     
     def initialize()
-       @station_trains = {}
+       @station_trains = Hash.new { |hash, key| hash[key] = [] }
     end
 
     # Методы для вызова из станций
@@ -12,11 +12,11 @@ class TrainDispatcher
     end
     
     def train_arrival(station, train)
-        station_trains[station].push(train) if station && train
+        station_trains[station].push(train)
     end
     
     def train_departure(station, train)
-        station_trains[station].delete(train) if station && train && station_trains[station].include?(train)
+        station_trains[station].delete(train)
     end
 
     # Методы для вызова из поезда
@@ -54,18 +54,13 @@ class TrainDispatcher
     def show_station_load_by_type(station)
         puts '------------------------'
         result = { }
-        station_trains.each do |key, value|
-            if key == station
-                value.each do |train|
-                    if result[train.type].nil?
-                        # новый тип поезда, добавляем в хеш
-                        result[train.type] = { :count => 1, :trains => [train]}
-                    else
-                      result[train.type][:count] += 1
-                      result[train.type][:trains].push(train)
-                    end
-                end
-                break;
+        station_trains[station].each do |train|
+            if result[train.type].nil?
+                # новый тип поезда, добавляем в хеш
+                result[train.type] = { :count => 1, :trains => [train]}
+            else
+                result[train.type][:count] += 1
+                result[train.type][:trains].push(train)
             end
         end
 
