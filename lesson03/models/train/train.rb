@@ -1,8 +1,20 @@
-require_relative('train_dispatcher')
-require_relative('passenger_railway_carriage')
-require_relative('cargo_railway_carriage')
+require_relative '../../modules/manufacturer'
+require_relative '../../modules/instance_counter'
+require_relative 'train_dispatcher'
+require_relative '../railway_carriage/passenger_railway_carriage'
+require_relative '../railway_carriage/cargo_railway_carriage'
 
 class Train
+  include Manufacturer
+  include InstanceCounter
+
+  # >> Lesson 05
+  @@trains = []
+
+  def self.find(number)
+    @@trains.detect { |train| train.number == number }
+  end
+  # << Lesson 05
 
   attr_accessor :speed
 
@@ -13,6 +25,10 @@ class Train
     @speed = 0
     @number = number
     @railway_carriages = []
+
+    @@trains << self
+
+    register_instance!
   end
 
   # Может набирать скорость
@@ -69,7 +85,7 @@ class Train
 
   # для красоты вывода
   def to_s
-    "#{type} № #{number} with #{railway_carriages.size.to_s} railway carriage"
+    "#{type} (#{manufacturer}) № #{number} with #{railway_carriages.size.to_s} railway carriage"
   end
 
   # >> Управление вагонами

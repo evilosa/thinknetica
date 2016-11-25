@@ -1,4 +1,4 @@
-require_relative('railway_carriage')
+require_relative 'railway_carriage'
 
 class CargoRailwayCarriage < RailwayCarriage
 
