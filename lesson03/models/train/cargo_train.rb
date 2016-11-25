@@ -1,5 +1,5 @@
-require_relative('train')
-require_relative('cargo_railway_carriage')
+require_relative 'train'
+require_relative '../railway_carriage/cargo_railway_carriage'
 
 class CargoTrain < Train
 

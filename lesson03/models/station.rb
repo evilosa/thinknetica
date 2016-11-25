@@ -1,6 +1,14 @@
-load('./train_dispatcher.rb')
+require_relative 'train/train_dispatcher'
+require_relative '../modules/instance_counter'
 
 class Station
+  include InstanceCounter
+
+  @@stations = []
+
+  def self.all
+    @@stations
+  end
 
   attr_reader :name, :dispatcher
 
@@ -8,6 +16,8 @@ class Station
     @name = name
     @dispatcher = dispatcher
     dispatcher.register_station(self)
+
+    @@stations << self
   end
 
   def train_arrival(train)
