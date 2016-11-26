@@ -33,11 +33,11 @@ train = PassengerTrain.new(dispatcher: dispatcher, number: '0002233')
 train.set_train_route(train_route)
 train.manufacturer = 'Telco Ind.'
 
-train2 = CargoTrain.new(dispatcher: dispatcher, number: '0002100')
+train2 = CargoTrain.new(dispatcher: dispatcher, number: '0002233')
 train2.set_train_route(train_route)
 train2.manufacturer = 'Tenemut Inc.'
 
-train3 = PassengerTrain.new(dispatcher: dispatcher, number: '0002400')
+train3 = PassengerTrain.new(dispatcher: dispatcher, number: '0002245')
 train3.set_train_route(train_route)
 train3.manufacturer = 'OCP corp.'
 
@@ -82,6 +82,12 @@ last_station.show_trains(show_by_types: true)
 
 puts 'Start find train with number 0002233'
 puts Train.find('0002233')
+
+puts 'Start find passenger train with number 0002233'
+puts PassengerTrain.find('0002233')
+
+puts 'Start find cargo train with number 0002233'
+puts CargoTrain.find('0002233')
 
 puts 'Start find not exists train with number 00033233'
 puts Train.find('00033233')
