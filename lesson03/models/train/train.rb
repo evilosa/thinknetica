@@ -1,5 +1,6 @@
 require_relative '../../modules/manufacturer'
 require_relative '../../modules/instance_counter'
+require_relative '../../modules/number_searchable'
 require_relative 'train_dispatcher'
 require_relative '../railway_carriage/passenger_railway_carriage'
 require_relative '../railway_carriage/cargo_railway_carriage'
@@ -9,24 +10,20 @@ class Train
   include InstanceCounter
 
   # >> Lesson 05
-  @@trains = []
-
-  def self.find(number)
-    @@trains.detect { |train| train.number == number }
-  end
+  include NumberSearchable
   # << Lesson 05
 
   attr_accessor :speed
 
-  attr_reader :number, :route, :dispatcher, :current_station
+  attr_reader :route, :dispatcher, :current_station
 
   def initialize(dispatcher: TrainDispatcher.new, number: '0001')
     @dispatcher = dispatcher
     @speed = 0
-    @number = number
+    self.number = number
     @railway_carriages = []
 
-    @@trains << self
+    register_item!
 
     register_instance!
   end
