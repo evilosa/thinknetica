@@ -4,6 +4,7 @@ require_relative '../../modules/number_searchable'
 require_relative 'train_dispatcher'
 require_relative '../railway_carriage/passenger_railway_carriage'
 require_relative '../railway_carriage/cargo_railway_carriage'
+require_relative '../../modules/validation'
 
 class Train
   include Manufacturer
@@ -13,19 +14,32 @@ class Train
   include NumberSearchable
   # << Lesson 05
 
+  # >> Lesson 06
+  include Validation
+
+  NUMBER_FORMAT = /^\w\w\w-?\w\w\z/
+  # >> Validation rules
+  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
+  add_value_format_validation_rule(:number, NUMBER_FORMAT)
+  # << Validation rules
+  # << Lesson 06
+
+
   attr_accessor :speed
 
   attr_reader :route, :dispatcher, :current_station
 
-  def initialize(dispatcher: TrainDispatcher.new, number: '0001')
+  def initialize(dispatcher: TrainDispatcher.default, number: '0001')
     @dispatcher = dispatcher
     @speed = 0
     self.number = number
     @railway_carriages = []
 
     register_item!
-
     register_instance!
+
+
+    validate!
   end
 
   # Может набирать скорость
@@ -34,7 +48,7 @@ class Train
   end
 
   # Может показывать текущую скорость
-  def current_speed
+  def show_current_speed
     puts "Current speed: #{speed} km/h"
   end
 
@@ -58,7 +72,6 @@ class Train
 
   # Может перемещаться между станциями, указанными в маршруте.
   def drive_to(station)
-    puts "#{self} drive to #{station}"
     dispatcher.train_drive_to(station, self)
     @current_station = station
   end

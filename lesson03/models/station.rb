@@ -1,8 +1,15 @@
 require_relative 'train/train_dispatcher'
 require_relative '../modules/instance_counter'
+require_relative '../modules/validation'
 
 class Station
   include InstanceCounter
+  include Validation
+
+  # >> Validation rules
+  add_value_availability_validation_rule(:name)
+  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
+  # << Validation rules
 
   @@stations = []
 
@@ -12,12 +19,13 @@ class Station
 
   attr_reader :name, :dispatcher
 
-  def initialize(name: '', dispatcher: TrainDispatcher.new)
+  def initialize(name: '', dispatcher: TrainDispatcher.default)
     @name = name
     @dispatcher = dispatcher
     dispatcher.register_station(self)
 
     @@stations << self
+    validate!
   end
 
   def train_arrival(train)

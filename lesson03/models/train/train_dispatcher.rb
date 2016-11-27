@@ -1,5 +1,12 @@
 class TrainDispatcher
-    
+
+  @default
+
+  # Синглтон диспетчера поездов
+  def self.default
+    @default ||= TrainDispatcher.new
+  end
+
     attr_reader :station_trains
     
     def initialize()
@@ -40,9 +47,17 @@ class TrainDispatcher
         # регистрируем на новой станции
         train_arrival(new_station, train)
     end
-    
+
+    def show_stations
+      station_trains.each_key { |key| puts key}
+    end
+
     def show_current_stations_load
-       station_trains.each { |key, value| show_station_load(key)}
+       station_trains.each_key { |key| show_station_load(key)}
+    end
+
+    def show_current_stations_load_by_type
+      station_trains.each_key { |key| show_station_load_by_type(key) }
     end
 
     def show_station_load(station)
