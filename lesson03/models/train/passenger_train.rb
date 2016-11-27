@@ -2,6 +2,12 @@ require_relative 'train'
 
 class PassengerTrain < Train
 
+  # >> Validation rules
+  NUMBER_FORMAT = /^\w\w\w-?\w\w\z/
+  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
+  add_value_format_validation_rule(:number, NUMBER_FORMAT)
+  # << Validation rules
+
   def type
     'Passenger train'
   end
