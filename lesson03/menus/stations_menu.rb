@@ -2,81 +2,81 @@ require_relative 'menu_header'
 require_relative '../models/station'
 require_relative '../models/train/train_dispatcher'
 
-module Menus
-  def Menus.StationsMenu
-    last_error = ''
+module Menu
+  # Закрытые функции для вывода информации
+  class << self
+    def stations_menu
+      last_error = ''
+      loop do
+        begin
+          system('clear')
 
-    loop do
-      begin
-        system('clear')
+          print_menu_header 'Stations menu'
 
-        Menus::PrintMenuHeader('Stations menu')
+          puts '1. Show stations list'
+          puts '2. Show stations load'
+          puts '3. Show stations load by type'
+          puts '4. Return'
+          puts ''
+          puts last_error
+          puts 'Enter menu index from keyboard: '
 
-        puts '1. Show stations list'
-        puts '2. Show stations load'
-        puts '3. Show stations load by type'
-        puts '4. Return'
-        puts ''
-        puts last_error
-        puts 'Enter menu index from keyboard: '
+          input = gets.chomp.to_s
+          raise TrainManagementException::MenuIndexIncorrectInput if input !~ /^\d{1}\z/
 
-        input = gets.chomp.to_s
-        raise TrainManagementException::MenuIndexIncorrectInput if input !~ /^\d{1}\z/
+          menu_index = input.to_i
+          raise TrainManagementException::MenuIndexOutOfRange unless (1..4).cover? menu_index
 
-        menuIndex = input.to_i
-        raise TrainManagementException::MenuIndexOutOfRange if !(1..4).include? menuIndex
-
-        # Если мы здесь значит пользователь ввел корректный номер меню
-        last_error = ''
-        case menuIndex
+          # Если мы здесь значит пользователь ввел корректный номер меню
+          last_error = ''
+          case menu_index
           when 1
-            Menus::ShowStationsList()
+            show_stations_list
           when 2
-            Menus::ShowStationsLoad()
+            show_stations_load
           when 3
-            Menus::ShowStationsLoadByType()
+            show_stations_load_by_type
           when 4
             break
-        end
+          end
 
-      rescue TrainManagementException::MenuIndexIncorrectInput
-        last_error = 'You input incorrect index, please try again'
-        retry
-      rescue TrainManagementException::MenuIndexOutOfRange
-        last_error = 'Index is not present in menu, please input correct index.'
-        retry
+        rescue TrainManagementException::MenuIndexIncorrectInput
+          last_error = 'You input incorrect index, please try again'
+          retry
+        rescue TrainManagementException::MenuIndexOutOfRange
+          last_error = 'Index is not present in menu, please input correct index.'
+          retry
+        end
       end
     end
+
+    private
+
+    def show_stations_list
+      system('clear')
+      print_menu_header 'Stations list'
+      TrainDispatcher.instance.show_stations
+      puts ''
+      puts 'Press ENTER to continue'
+      gets.chomp
+    end
+
+    def show_stations_load
+      system('clear')
+      print_menu_header 'Stations load'
+      TrainDispatcher.instance.show_current_stations_load
+      puts ''
+      puts 'Press ENTER to continue'
+      gets.chomp
+    end
+
+    def show_stations_load_by_type
+      system('clear')
+      print_menu_header 'Stations load by type'
+      TrainDispatcher.instance.show_current_stations_load_by_type
+      puts ''
+      puts 'Press ENTER to continue'
+      gets.chomp
+    end
   end
-
-  # Закрытые функции для вывода информации
-  private
-
-  def Menus.ShowStationsList
-    system('clear')
-    Menus::PrintMenuHeader('Stations list')
-    TrainDispatcher.default.show_stations
-    puts ''
-    puts 'Press ENTER to continue'
-    gets.chomp
-  end
-
-  def Menus.ShowStationsLoad
-    system('clear')
-    Menus::PrintMenuHeader('Stations load')
-    TrainDispatcher.default.show_current_stations_load
-    puts ''
-    puts 'Press ENTER to continue'
-    gets.chomp
-  end
-
-  def Menus.ShowStationsLoadByType
-    system('clear')
-    Menus::PrintMenuHeader('Stations load by type')
-    TrainDispatcher.default.show_current_stations_load_by_type
-    puts ''
-    puts 'Press ENTER to continue'
-    gets.chomp
-  end
-
 end

@@ -47,5 +47,4 @@ class TrainRoute
   def to_s
     "Route from: '#{first_station}' to '#{last_station}'"
   end
-
 end

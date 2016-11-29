@@ -1,5 +1,5 @@
-module Menus
-  def Menus.PrintMenuHeader(header = 'Main menu')
+module Menu
+  def self.print_menu_header(header = 'Main menu')
     puts '--------------------------------------------------------------------------------'
     puts '---------------------- Station management subsystem ----------------------------'
     puts '--------------------------------------------------------------------------------'

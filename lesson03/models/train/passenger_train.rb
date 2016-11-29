@@ -1,11 +1,10 @@
 require_relative 'train'
 
 class PassengerTrain < Train
-
   # >> Validation rules
   NUMBER_FORMAT = /^\w\w\w-?\w\w\z/
-  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
-  add_value_format_validation_rule(:number, NUMBER_FORMAT)
+  validate :dispatcher, :type, TrainDispatcher
+  validate :number, :format, NUMBER_FORMAT
   # << Validation rules
 
   def type
@@ -31,5 +30,4 @@ class PassengerTrain < Train
   def passenger_train_generic_check_logic
     puts 'Passangers railway carriage added to passenger train successfuly'
   end
-
 end

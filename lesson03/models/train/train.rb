@@ -19,25 +19,22 @@ class Train
 
   NUMBER_FORMAT = /^\w\w\w-?\w\w\z/
   # >> Validation rules
-  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
-  add_value_format_validation_rule(:number, NUMBER_FORMAT)
-  # << Validation rules
+  validate :dispatcher, :type, TrainDispatcher
+  validate :number, :format, NUMBER_FORMAT
   # << Lesson 06
-
 
   attr_accessor :speed
 
   attr_reader :route, :dispatcher, :current_station
 
-  def initialize(dispatcher: TrainDispatcher.default, number: '0001')
-    @dispatcher = dispatcher
+  def initialize(number: '0001')
+    @dispatcher = TrainDispatcher.instance
     @speed = 0
     self.number = number
     @railway_carriages = []
 
     register_item!
     register_instance!
-
 
     validate!
   end
@@ -59,7 +56,7 @@ class Train
 
   # Может показывать количество вагонов
   def show_railway_carriage_count
-    puts "Railway carriage count: #{railway_carriages.size.to_s}"
+    puts "Railway carriage count: #{railway_carriages.size}"
   end
 
   # Может принимать маршрут следования
@@ -95,7 +92,7 @@ class Train
 
   # для красоты вывода
   def to_s
-    "#{type} (#{manufacturer}) № #{number} with #{railway_carriages.size.to_s} railway carriage"
+    "#{type} (#{manufacturer}) № #{number} with #{railway_carriages.size} railway carriage"
   end
 
   # >> Управление вагонами
@@ -110,7 +107,6 @@ class Train
   end
 
   # << Управление вагонами
-
   protected
 
   attr_reader :railway_carriages # выносим в протектед, т.к. унаследованные классы могут иметь свою логику при смене вагонов
@@ -125,5 +121,4 @@ class Train
     @railway_carriages.delete(railway_carriage)
     railway_carriage.check_carriage
   end
-
 end

@@ -7,8 +7,7 @@ class Station
   include Validation
 
   # >> Validation rules
-  add_value_availability_validation_rule(:name)
-  add_value_type_validation_rule(:dispatcher, TrainDispatcher)
+  validate :name, :availability
   # << Validation rules
 
   @@stations = []
@@ -19,9 +18,9 @@ class Station
 
   attr_reader :name, :dispatcher
 
-  def initialize(name: '', dispatcher: TrainDispatcher.default)
+  def initialize(name: '')
     @name = name
-    @dispatcher = dispatcher
+    @dispatcher = TrainDispatcher.instance
     dispatcher.register_station(self)
 
     @@stations << self
@@ -37,7 +36,6 @@ class Station
   end
 
   def show_trains(show_by_types: false)
-
     if show_by_types
       dispatcher.show_station_load_by_type(self)
     else
@@ -48,5 +46,4 @@ class Station
   def to_s
     name
   end
-
 end

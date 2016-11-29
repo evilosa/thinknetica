@@ -2,15 +2,15 @@ require_relative 'menu_header'
 require_relative 'stations_menu'
 require_relative 'trains_menu'
 
-module Menus
-  def Menus.MainMenu
+module Menu
+  def self.main
     last_error = ''
 
     loop do
       begin
         system('clear')
 
-        Menus::PrintMenuHeader()
+        print_menu_header
 
         puts '1. Station menu'
         puts '2. Train menu'
@@ -23,18 +23,18 @@ module Menus
         raise TrainManagementException::MenuIndexIncorrectInput if input !~ /^\d{1}\z/
 
         menuIndex = input.to_i
-        raise TrainManagementException::MenuIndexOutOfRange if !(1..3).include? menuIndex
+        raise TrainManagementException::MenuIndexOutOfRange unless (1..3).cover? menuIndex
 
         # Если мы здесь значит пользователь ввел корректный номер меню
         last_error = ''
         case menuIndex
-          when 1
-            Menus::StationsMenu()
-          when 2
-            Menus::TrainsMenu()
-          when 3
-            puts 'Thank you for using our software. Good bye!'
-            break
+        when 1
+          stations_menu
+        when 2
+          trains_menu
+        when 3
+          puts 'Thank you for using our software. Good bye!'
+          break
         end
 
       rescue TrainManagementException::MenuIndexIncorrectInput
