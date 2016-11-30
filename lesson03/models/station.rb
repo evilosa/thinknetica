@@ -27,6 +27,12 @@ class Station
     validate!
   end
 
+  # написать метод, который принимает блок и 
+  # проходит по всем поездам на станции, передавая каждый поезд в блок.
+  def each_train
+    dispatcher.get_station_trains(self).each { |train| yield train }
+  end
+
   def train_arrival(train)
     dispatcher.train_arrival(self, train)
   end

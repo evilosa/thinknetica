@@ -39,6 +39,13 @@ class Train
     validate!
   end
 
+  # написать метод, который принимает блок и проходит по всем 
+  # вагонам поезда (вагоны должны быть во внутреннем массиве), 
+  # передавая каждый объект вагона в блок.
+  def each_carriage
+    railway_carriages.each { |carriage| yield carriage }
+  end
+
   # Может набирать скорость
   def accelerate(speed)
     self.speed += speed
@@ -99,7 +106,9 @@ class Train
 
   # интерфейсные методы для прицепки/отцепки вагонов
   def add_railway_carriage(railway_carriage)
-    hook_railway_carriage(railway_carriage) if speed == 0
+    return unless speed == 0
+    railway_carriage.number = @railway_carriages.size + 1
+    hook_railway_carriage(railway_carriage)
   end
 
   def remove_railway_carriage(railway_carriage)
