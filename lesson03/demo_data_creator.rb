@@ -39,8 +39,13 @@ module Demo
 
       wagon = CargoRailwayCarriage.new
       train2.add_railway_carriage(wagon)
+      wagon.add_cargo 12430
+      wagon2 = CargoRailwayCarriage.new
+      wagon2.add_cargo 24330
+      train2.add_railway_carriage(wagon2)
 
       passenger_wagon = PassengerRailwayCarriage.new
+      passenger_wagon.add_passenger
       train.add_railway_carriage(passenger_wagon)
     end
   end

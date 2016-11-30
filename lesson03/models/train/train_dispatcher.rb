@@ -54,6 +54,14 @@ class TrainDispatcher
     station_trains.each_key { |key| show_station_load_by_type(key) }
   end
 
+  def each_station
+    station_trains.each_key { |station| yield station }
+  end
+
+  def get_station_trains(station)
+    station_trains[station] ||= []
+  end
+
   def show_station_load(station)
     puts '------------------------'
     puts "Station: #{station}, trains:"

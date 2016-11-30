@@ -64,7 +64,14 @@ module Menu
     def show_stations_load
       system('clear')
       print_menu_header 'Stations load'
-      TrainDispatcher.instance.show_current_stations_load
+      TrainDispatcher.instance.each_station do |station|
+        puts station
+        station.each_train do |train| 
+          puts "  #{train}"
+          train.each_carriage { |carriage| puts "    #{carriage}" }          
+        end
+      end
+      # TrainDispatcher.instance.show_current_stations_load
       puts ''
       puts 'Press ENTER to continue'
       gets.chomp
