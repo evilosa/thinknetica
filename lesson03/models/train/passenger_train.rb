@@ -13,18 +13,20 @@ class PassengerTrain < Train
 
   protected
 
+  # Использую guard вместо оборачивания через if
   def hook_railway_carriage(railway_carriage)
-    if railway_carriage.instance_of? PassengerRailwayCarriage
-      super
-      passenger_train_generic_check_logic
-    end
+    return unless railway_carriage.instance_of? PassengerRailwayCarriage
+
+    super
+    passenger_train_generic_check_logic
   end
 
+  # Использую guard вместо оборачивания через if
   def unhook_railway_carriage(railway_carriage)
-    if railway_carriage.instance_of? PassengerRailwayCarriage
-      super
-      passenger_train_generic_check_logic
-    end
+    return unless railway_carriage.instance_of? PassengerRailwayCarriage
+
+    super
+    passenger_train_generic_check_logic
   end
 
   def passenger_train_generic_check_logic

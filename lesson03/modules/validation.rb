@@ -63,26 +63,19 @@ module Validation
         attribute_name = value[:name].to_s
         property = instance_variable_get("@#{attribute_name}")
 
-        case value[:rule]
-        when :availability
-          validate_availability(attribute_name, property)
-        when :type
-          validate_value_type(attribute_name, property, value[:option])
-        when :format
-          validate_value_format(attribute_name, property, value[:option])
-        end
+        send("validate_#{value[:rule]}", attribute_name, property, value[:option])
       end
     end
 
-    def validate_availability(attribute_name, property)
+    def validate_availability(attribute_name, property, _option)
       raise TrainManagementException::AvailabilityValidationError, attribute_name: attribute_name if property.nil? || property == ''
     end
 
-    def validate_value_type(attribute_name, property, type)
+    def validate_type(attribute_name, property, type)
       raise TrainManagementException::TypeValidationError, attribute_name: attribute_name unless property.is_a? type
     end
 
-    def validate_value_format(attribute_name, property, format_string)
+    def validate_format(attribute_name, property, format_string)
       raise TrainManagementException::ValueValidationError, attribute_name: attribute_name if property !~ format_string
     end
   end
