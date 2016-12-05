@@ -13,10 +13,27 @@ module Demo
     def seed_demo_data
       # Create stations
       first_station = Station.new(name: 'Moscow')
+      first_station.description = 'Главная станция РФ'
+      first_station.description = 'Наверное крупнейшая станция в РФ'
+      first_station.dispatcher_name = 'Гоношилкин Арарат Вадимович'
+      first_station.railway_count = 60
+      # first_station.dispatcher_name = :gonoshilkin
+
       second_station = Station.new(name: 'Voronej')
+      second_station.description = 'Москва-Воронеж, хрен догонишь'
+      second_station.railway_count = 15
+
       third_station = Station.new(name: 'Rostov')
+      third_station.description = 'Большая деревня'
+      third_station.railway_count = 30
+
       fourth_station = Station.new(name: 'Krasnodar')
+      fourth_station.description = 'Мухосранск как выражался Маяковский, и к тому же родина'
+      fourth_station.railway_count = 10
+
       last_station = Station.new(name: 'Adler')
+      last_station.description = 'Можно купить чурчхеллу на станции круглый год'
+      last_station.railway_count = 20
 
       # Train route
       train_route = TrainRoute.new(first_station, last_station)
