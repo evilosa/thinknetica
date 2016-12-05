@@ -39,11 +39,11 @@ class Train
     validate!
   end
 
-  # написать метод, который принимает блок и проходит по всем 
-  # вагонам поезда (вагоны должны быть во внутреннем массиве), 
+  # написать метод, который принимает блок и проходит по всем
+  # вагонам поезда (вагоны должны быть во внутреннем массиве),
   # передавая каждый объект вагона в блок.
-  def each_carriage
-    railway_carriages.each { |carriage| yield carriage }
+  def each_carriage(&block)
+    railway_carriages.each(&block)
   end
 
   # Может набирать скорость
@@ -67,11 +67,12 @@ class Train
   end
 
   # Может принимать маршрут следования
-  def set_train_route(train_route)
-    if train_route
-      @route = train_route
-      drive_to(train_route.first_station)
-    end
+  # Метод переименован в соответствии с правилом не использовать set_ в имени сеттера
+  def train_route=(train_route)
+    return unless train_route
+
+    @route = train_route
+    drive_to(train_route.first_station)
   end
 
   # Может перемещаться между станциями, указанными в маршруте.
@@ -106,13 +107,13 @@ class Train
 
   # интерфейсные методы для прицепки/отцепки вагонов
   def add_railway_carriage(railway_carriage)
-    return unless speed == 0
+    return unless speed.zero?
     railway_carriage.number = @railway_carriages.size + 1
     hook_railway_carriage(railway_carriage)
   end
 
   def remove_railway_carriage(railway_carriage)
-    unhook_railway_carriage(railway_carriage) if speed == 0
+    unhook_railway_carriage(railway_carriage) if speed.zero?
   end
 
   # << Управление вагонами

@@ -1,12 +1,11 @@
 require_relative 'railway_carriage'
 
 class CargoRailwayCarriage < RailwayCarriage
-  
   # Добавить атрибут общего объема (задается при создании вагона)
   attr_reader :total_space
   attr_reader :current_weight
 
-  def initialize(number = 0, total_space = 56000)
+  def initialize(number = 0, total_space = 56_000)
     super number
     @total_space = total_space
     @current_weight = 0
@@ -18,9 +17,7 @@ class CargoRailwayCarriage < RailwayCarriage
   end
 
   # Добавить метод, который возвращает занятый объем
-  def busy_space
-    current_weight
-  end
+  alias busy_space current_weight
 
   # Добавить метод, который возвращает оставшийся (доступный) объем
   def free_space
@@ -38,5 +35,4 @@ class CargoRailwayCarriage < RailwayCarriage
   def to_s
     "№ #{number} type: #{type} total #{busy_space}/#{total_space}"
   end
-
 end

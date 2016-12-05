@@ -14,19 +14,21 @@ class CargoTrain < Train
 
   protected
 
+  # Использую guard вместо оборачивания через if
   def hook_railway_carriage(railway_carriage)
-    if railway_carriage.instance_of? CargoRailwayCarriage
-      super
-      # К примеру проверим тормоза при подсоединении вагона
-      check_brake
-    end
+    return unless railway_carriage.instance_of? CargoRailwayCarriage
+
+    super
+    # К примеру проверим тормоза при подсоединении вагона
+    check_brake
   end
 
+  # Использую guard вместо оборачивания через if
   def unhook_railway_carriage(railway_carriage)
-    if railway_carriage.instance_of? CargoRailwayCarriage
-      super
-      check_brake
-    end
+    return unless railway_carriage.instance_of? CargoRailwayCarriage
+
+    super
+    check_brake
   end
 
   def check_brake

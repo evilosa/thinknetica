@@ -35,7 +35,7 @@ class TrainDispatcher
       if value.include?(train)
         value.delete(train)
         break # мы нашли поезд, дальше можно не обходить
-        end
+      end
     end
 
     # регистрируем на новой станции
@@ -54,8 +54,8 @@ class TrainDispatcher
     station_trains.each_key { |key| show_station_load_by_type(key) }
   end
 
-  def each_station
-    station_trains.each_key { |station| yield station }
+  def each_station(&block)
+    station_trains.each_key(&block)
   end
 
   def get_station_trains(station)

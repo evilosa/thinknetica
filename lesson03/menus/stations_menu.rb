@@ -66,9 +66,9 @@ module Menu
       print_menu_header 'Stations load'
       TrainDispatcher.instance.each_station do |station|
         puts station
-        station.each_train do |train| 
+        station.each_train do |train|
           puts "  #{train}"
-          train.each_carriage { |carriage| puts "    #{carriage}" }          
+          train.each_carriage { |carriage| puts "    #{carriage}" }
         end
       end
       # TrainDispatcher.instance.show_current_stations_load

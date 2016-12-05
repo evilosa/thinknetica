@@ -26,22 +26,22 @@ module Demo
 
       # Train
       train = PassengerTrain.new(number: '223-DS')
-      train.set_train_route(train_route)
+      train.train_route = train_route
       train.manufacturer = 'Telco Ind.'
 
       train2 = CargoTrain.new(number: 'MKD05')
-      train2.set_train_route(train_route)
+      train2.train_route = train_route
       train2.manufacturer = 'Tenemut Inc.'
 
       train3 = PassengerTrain.new(number: '005-RF')
-      train3.set_train_route(train_route)
+      train3.train_route = train_route
       train3.manufacturer = 'OCP corp.'
 
       wagon = CargoRailwayCarriage.new
       train2.add_railway_carriage(wagon)
-      wagon.add_cargo 12430
+      wagon.add_cargo 12_430
       wagon2 = CargoRailwayCarriage.new
-      wagon2.add_cargo 24330
+      wagon2.add_cargo 24_330
       train2.add_railway_carriage(wagon2)
 
       passenger_wagon = PassengerRailwayCarriage.new
