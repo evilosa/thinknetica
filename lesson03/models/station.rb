@@ -1,14 +1,21 @@
 require_relative 'train/train_dispatcher'
 require_relative '../modules/instance_counter'
 require_relative '../modules/validation'
+require_relative '../modules/accessors'
 
 class Station
   include InstanceCounter
   include Validation
+  extend Accessors
 
   # >> Validation rules
   validate :name, :availability
   # << Validation rules
+
+  # >> Lesson 09
+  attr_accessor_with_history :description, :railway_count
+  strong_attr_accessor :dispatcher_name, String
+  # << Lesson 09
 
   @@stations = []
 
@@ -50,6 +57,6 @@ class Station
   end
 
   def to_s
-    name
+    "#{name} - (#{railway_count}) - #{description}"
   end
 end
